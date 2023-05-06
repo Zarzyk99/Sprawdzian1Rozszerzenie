@@ -1,14 +1,20 @@
 package pl.kurs.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.MODULE)
+@Data
 public class Rectangle extends Shape {
     private double a;
     private double b;
 
     private Rectangle(double a, double b) {
-        super("rectangle");
         this.a = a;
         this.b = b;
     }
@@ -17,10 +23,12 @@ public class Rectangle extends Shape {
         return new Rectangle(length, width);
     }
 
+    @JsonIgnore
     public double getLength() {
         return a;
     }
 
+    @JsonIgnore
     public double getWidth() {
         return b;
     }

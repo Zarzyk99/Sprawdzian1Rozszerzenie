@@ -3,6 +3,7 @@ package pl.kurs.app;
 import lombok.SneakyThrows;
 import pl.kurs.factory.ShapeFactory;
 import pl.kurs.models.Shape;
+import pl.kurs.models.Shapes;
 import pl.kurs.service.ShapeService;
 
 import java.nio.file.Path;
@@ -14,18 +15,21 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Zaliczyłem test");
 
+        exportTest();
+
+        importTest();
 
     }
 
     @SneakyThrows
-    private void exportTest() {
+    private static void exportTest() {
         Path parentPath = Paths.get(Main.class.getResource("/").toURI()).getParent();
         Path path = Paths.get(parentPath + "/test.json");
-        ShapeService.exportToJson(getTestShapes(), path);
+        ShapeService.exportToJson(Shapes.of(getTestShapes()), path);
     }
 
     @SneakyThrows
-    private void importTest() {
+    private static void importTest() {
 
         Path parentPath = Paths.get(Main.class.getResource("/").toURI()).getParent();
         Path path = Paths.get(parentPath + "/test.json");
@@ -34,7 +38,7 @@ public class Main {
 
     }
 
-    private List<Shape> getTestShapes() {
+    private static List<Shape> getTestShapes() {
         List<Shape> shapes = new ArrayList<>();
 
         ShapeFactory shapeFactory = new ShapeFactory();

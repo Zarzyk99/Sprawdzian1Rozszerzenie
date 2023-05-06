@@ -1,13 +1,18 @@
 package pl.kurs.models;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.MODULE)
+@Data
 public class Circle extends Shape {
 
     private double r;
 
     private Circle(double r) {
-        super("circle");
         this.r = r;
     }
 

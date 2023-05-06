@@ -1,18 +1,16 @@
 package pl.kurs.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@Data
 public abstract class Shape {
-
-
-    protected Shape(String type) {
-        this.type = type;
-    }
-
-    public Shape() {
-    }
-
+    @JsonIgnore
     public abstract double getArea();
 
+    @JsonIgnore
     public abstract double getPerimeter();
 
-    protected String type;
 }

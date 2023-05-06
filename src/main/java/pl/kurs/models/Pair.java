@@ -2,7 +2,7 @@ package pl.kurs.models;
 
 import java.util.Objects;
 
-public class Pair<T, Y>{
+public class Pair<T, Y> {
     private final T first;
     private final Y second;
 

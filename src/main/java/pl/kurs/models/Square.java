@@ -1,12 +1,17 @@
 package pl.kurs.models;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.MODULE)
+@Data
 public class Square extends Shape {
     private double a;
 
     private Square(double a) {
-        super("square");
         this.a = a;
         getArea();
         getPerimeter();
