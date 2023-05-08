@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import pl.kurs.models.Shape;
-import pl.kurs.models.Shapes;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,14 +18,13 @@ public class ShapeService {
 
     private static final PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
             .allowIfSubType("pl.kurs.models")
-            .allowIfSubType("java.util.ArrayList")
             .build();
 
     private static final ObjectMapper mapper;
 
     static {
         mapper = new ObjectMapper();
-        mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
+        mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT);
     }
 
 
@@ -43,7 +42,7 @@ public class ShapeService {
     }
 
     @SneakyThrows
-    public static void exportToJson(Shapes shapes, Path path) {
+    public static void exportToJson(List<Shape> shapes, Path path) {
         String json = mapper.writeValueAsString(shapes);
         File file = new File(path.toString());
 
@@ -59,9 +58,9 @@ public class ShapeService {
         if (path == null) {
             throw new IllegalArgumentException("Invalid argument, path is null");
         }
-        List<Shape> shapes;
+        List<Shape> shapes = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(path.toString()))) {
-            shapes = mapper.readValue(reader.lines().reduce(String::concat).orElse(""), Shapes.class).getShapes();
+            shapes = mapper.readValue(reader.lines().reduce(String::concat).orElse(""), shapes.getClass());
         }
         return shapes;
     }

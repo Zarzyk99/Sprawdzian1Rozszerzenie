@@ -3,7 +3,6 @@ package pl.kurs.app;
 import lombok.SneakyThrows;
 import pl.kurs.factory.ShapeFactory;
 import pl.kurs.models.Shape;
-import pl.kurs.models.Shapes;
 import pl.kurs.service.ShapeService;
 
 import java.nio.file.Path;
@@ -18,14 +17,13 @@ public class Main {
         exportTest();
 
         importTest();
-
     }
 
     @SneakyThrows
     private static void exportTest() {
         Path parentPath = Paths.get(Main.class.getResource("/").toURI()).getParent();
         Path path = Paths.get(parentPath + "/test.json");
-        ShapeService.exportToJson(Shapes.of(getTestShapes()), path);
+        ShapeService.exportToJson(getTestShapes(), path);
     }
 
     @SneakyThrows

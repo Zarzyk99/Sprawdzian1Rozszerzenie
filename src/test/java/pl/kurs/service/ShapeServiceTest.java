@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import pl.kurs.factory.ShapeFactory;
 import pl.kurs.models.Shape;
-import pl.kurs.models.Shapes;
 import pl.kurs.models.Square;
 
 import java.nio.file.Files;
@@ -71,15 +70,13 @@ public class ShapeServiceTest {
     @Test
     @SneakyThrows
     public void testExportToJson() {
-        List<Shape> shapes = new ArrayList<>();
-        shapes.add(shapeFactory.createCircle(5));
-        shapes.add(shapeFactory.createRectangle(2, 3));
-
         Path testFile = Files.createTempFile("shapes", ".json");
-        ShapeService.exportToJson(Shapes.of(shapes), testFile);
+        ShapeService.exportToJson(shapes, testFile);
 
-        String expectedJson = "[\"pl.kurs.models.Shapes\",{\"shapes\":[\"java.util.ArrayList\"," +
-                "[[\"pl.kurs.models.Circle\",{\"r\":5.0}],[\"pl.kurs.models.Rectangle\",{\"a\":2.0,\"b\":3.0}]]]}]";
+        String expectedJson = "[[\"pl.kurs.models.Square\",{\"a\":5.0}],[\"pl.kurs.models.Square\",{\"a\":8.0}]," +
+                "[\"pl.kurs.models.Rectangle\",{\"a\":7.0,\"b\":3.0}]," +
+                "[\"pl.kurs.models.Rectangle\",{\"a\":10.0,\"b\":5.0}]," +
+                "[\"pl.kurs.models.Circle\",{\"r\":7.0}],[\"pl.kurs.models.Circle\",{\"r\":3.0}]]";
         String actualJson = Files.readString(testFile);
 
         Assertions.assertEquals(expectedJson, actualJson);
@@ -91,11 +88,10 @@ public class ShapeServiceTest {
     @SneakyThrows
     public void testImportFormJson() {
         Path testFile = Files.createTempFile("shapes", ".json");
-        String testShapesJson = "[\"pl.kurs.models.Shapes\",{\"shapes\":[\"java.util.ArrayList\"," +
-                "[[\"pl.kurs.models.Square\",{\"a\":5.0}],[\"pl.kurs.models.Square\",{\"a\":8.0}]," +
-                "[\"pl.kurs.models.Rectangle\",{\"a\":7.0,\"b\":3.0}],[\"pl.kurs.models.Rectangle\"," +
-                "{\"a\":10.0,\"b\":5.0}],[\"pl.kurs.models.Circle\",{\"r\":7.0}]," +
-                "[\"pl.kurs.models.Circle\",{\"r\":3.0}]]]}]";
+        String testShapesJson = "[[\"pl.kurs.models.Square\",{\"a\":5.0}],[\"pl.kurs.models.Square\",{\"a\":8.0}]," +
+                "[\"pl.kurs.models.Rectangle\",{\"a\":7.0,\"b\":3.0}]," +
+                "[\"pl.kurs.models.Rectangle\",{\"a\":10.0,\"b\":5.0}]," +
+                "[\"pl.kurs.models.Circle\",{\"r\":7.0}],[\"pl.kurs.models.Circle\",{\"r\":3.0}]]";
 
         Files.writeString(testFile, testShapesJson);
         var importedShapes = ShapeService.importFromJson(testFile);
