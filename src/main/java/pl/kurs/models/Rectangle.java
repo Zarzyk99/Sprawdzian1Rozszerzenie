@@ -1,7 +1,7 @@
 package pl.kurs.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,37 +10,38 @@ import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.MODULE)
 @Data
+@JsonTypeName("rectangle")
 public class Rectangle extends Shape {
-    private double a;
-    private double b;
+    private double length;
+    private double width;
 
-    private Rectangle(double a, double b) {
-        this.a = a;
-        this.b = b;
+    private Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
     }
 
     public static Rectangle createRectangle(double length, double width) {
         return new Rectangle(length, width);
     }
 
-    @JsonIgnore
+
     public double getLength() {
-        return a;
+        return length;
     }
 
-    @JsonIgnore
     public double getWidth() {
-        return b;
+        return width;
     }
+
 
     @Override
     public double getArea() {
-        return a * b;
+        return length * width;
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * (a + b);
+        return 2 * (length + width);
     }
 
     @Override
@@ -48,19 +49,19 @@ public class Rectangle extends Shape {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(rectangle.a, a) == 0 && Double.compare(rectangle.b, b) == 0;
+        return Double.compare(rectangle.length, length) == 0 && Double.compare(rectangle.width, width) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(a, b);
+        return Objects.hash(length, width);
     }
 
     @Override
     public String toString() {
         return "Rectangle{" +
-                "a=" + a +
-                ", b=" + b +
+                "length=" + length +
+                ", width=" + width +
                 '}';
     }
 }

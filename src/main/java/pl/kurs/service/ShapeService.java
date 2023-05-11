@@ -1,8 +1,6 @@
 package pl.kurs.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import pl.kurs.models.Shape;
@@ -15,18 +13,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ShapeService {
-
-    private static final PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-            .allowIfSubType("pl.kurs.models")
-            .build();
-
     private static final ObjectMapper mapper;
 
     static {
         mapper = new ObjectMapper();
-        mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT);
+        mapper.writerWithDefaultPrettyPrinter();
     }
-
 
     public static Shape findTheLargestArea(@NonNull List<Shape> shapes) {
         return shapes.stream()

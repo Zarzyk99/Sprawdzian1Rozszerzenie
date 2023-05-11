@@ -1,5 +1,6 @@
 package pl.kurs.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,30 +9,31 @@ import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.MODULE)
 @Data
+@JsonTypeName("circle")
 public class Circle extends Shape {
 
-    private double r;
+    private double radius;
 
-    private Circle(double r) {
-        this.r = r;
+    private Circle(double radius) {
+        this.radius = radius;
     }
 
     public static Circle createCircle(double radius) {
         return new Circle(radius);
     }
 
-    public double getR() {
-        return r;
+    public double getRadius() {
+        return radius;
     }
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(r, 2);
+        return Math.PI * Math.pow(radius, 2);
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * Math.PI * r;
+        return 2 * Math.PI * radius;
     }
 
     @Override
@@ -39,18 +41,18 @@ public class Circle extends Shape {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Circle circle = (Circle) o;
-        return Double.compare(circle.r, r) == 0;
+        return Double.compare(circle.radius, radius) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(r);
+        return Objects.hash(radius);
     }
 
     @Override
     public String toString() {
         return "Circle{" +
-                "r=" + r +
+                "r=" + radius +
                 '}';
     }
 }
