@@ -7,18 +7,12 @@ import pl.kurs.models.Shape;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ShapeService {
-    private static final ObjectMapper mapper;
-
-    static {
-        mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter();
-    }
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Shape findTheLargestArea(@NonNull List<Shape> shapes) {
         return shapes.stream()
@@ -35,7 +29,10 @@ public class ShapeService {
 
     @SneakyThrows
     public static void exportToJson(List<Shape> shapes, Path path) {
-        String json = mapper.writeValueAsString(shapes);
+        Shape[] shapeArray = new Shape[shapes.size()];
+        shapes.toArray(shapeArray);
+
+        String json = mapper.writeValueAsString(shapeArray);
         File file = new File(path.toString());
 
         try (
@@ -50,12 +47,10 @@ public class ShapeService {
         if (path == null) {
             throw new IllegalArgumentException("Invalid argument, path is null");
         }
-        List<Shape> shapes = new ArrayList<>();
+        Shape[] shapes = new Shape[0];
         try (BufferedReader reader = new BufferedReader(new FileReader(path.toString()))) {
             shapes = mapper.readValue(reader.lines().reduce(String::concat).orElse(""), shapes.getClass());
         }
-        return shapes;
+        return List.of(shapes);
     }
 }
-
-
